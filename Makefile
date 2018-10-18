@@ -4,7 +4,7 @@ data_files=$(addprefix data/,protein.links.detailed.v${v}.txt.gz protein.aliases
 
 interactomes: data/entrez2symbol.txt $(data_files)
 	mkdir -p output
-	zcat data/protein.links.detailed.v${v}.txt.gz | perl filter_links.pl 750 | python2.7 extract_edges_per_species.py data/protein.aliases.v${v}.txt.gz data/species.v${v}.txt organisms | Rscript build_interactomes.R
+	gzcat data/protein.links.detailed.v${v}.txt.gz | perl filter_links.pl 750 | python2.7 extract_edges_per_species.py data/protein.aliases.v${v}.txt.gz data/species.v${v}.txt organisms | Rscript build_interactomes.R
 
 data/species.v${v}.txt:    
 	mkdir -p $(@D)
@@ -15,7 +15,7 @@ data/%.txt.gz:
 	wget --quiet -P $(@D) -nd $(url_prefix)/$(@F)
 
 data/entrez2symbol.txt: data/gene_info.gz
-	zcat $< | tail -n +2 | cut -f 2,3 > $@
+	gzcat $< | tail -n +2 | cut -f 2,3 > $@
 
 data/gene_info.gz:
 	mkdir -p $(@D)

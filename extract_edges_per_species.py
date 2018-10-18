@@ -10,7 +10,7 @@ import re
 #===============================================================================
 def openFile(fileName):
     if fileName.endswith(".gz"):
-        cmdArgs = [ "zcat" , fileName ]
+        cmdArgs = [ "gzcat" , fileName ]
         return subprocess.Popen(cmdArgs, stdout=subprocess.PIPE).stdout
     else:
         return open(fileName)
